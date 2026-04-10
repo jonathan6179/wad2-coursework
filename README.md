@@ -17,8 +17,11 @@ https://ym-studios.onrender.com
 1. Install dependencies:
 npm install
 
-2. Create a `.env` file in the project root using `.env.example` as a template.
-   Open `.env` and set your own `ACCESS_TOKEN_SECRET` value.
+2. Create a `.env` file in the project root with the following contents:
+```
+   ACCESS_TOKEN_SECRET=wad2yogastudiocoursework2026
+   PORT=3000
+```
 
 3. Seed the database with demo data:
 node seed/seed.js
