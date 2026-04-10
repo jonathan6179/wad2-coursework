@@ -1,4 +1,7 @@
 # Y&M Studios — Yoga & Mindfulness Booking System
+## Live Demo
+
+https://ym-studios.onrender.com
 
 ## How to Run
 
