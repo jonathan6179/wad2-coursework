@@ -1,0 +1,38 @@
+{{> head}}
+{{> header}}
+
+<main class="container py-4">
+  <h1>{{title}}</h1>
+  <p><a href="/organiser">Back to dashboard</a></p>
+
+  {{#participants}}
+  <div class="table-responsive">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Status</th>
+          <th>Booked at</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#participants}}
+        <tr>
+          <td>{{name}}</td>
+          <td>{{email}}</td>
+          <td>{{status}}</td>
+          <td>{{createdAt}}</td>
+        </tr>
+        {{/participants}}
+      </tbody>
+    </table>
+  </div>
+  {{/participants}}
+
+  {{^participants}}
+  <p>No confirmed bookings for this course yet.</p>
+  {{/participants}}
+</main>
+
+{{> footer}}

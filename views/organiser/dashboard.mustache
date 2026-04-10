@@ -1,0 +1,36 @@
+{{> head}}
+{{> header}}
+
+<main class="container py-4">
+  <h1>Organiser Dashboard</h1>
+
+  <div class="dashboard-actions">
+    <a class="btn primary" href="/organiser/courses/new">Add New Course</a>
+    <a class="btn" href="/organiser/users">Manage Users</a>
+  </div>
+
+  <section>
+    <h2>Current Courses</h2>
+    {{#courses}}
+    <article class="card mb-3">
+      <h3>{{title}}</h3>
+      <p class="muted">Level: {{level}} • Type: {{type}}</p>
+      <p>{{description}}</p>
+      <p class="muted">Location: {{location}} • Price: £{{price}}</p>
+      <div class="card-actions">
+        <a class="btn" href="/organiser/courses/{{_id}}/edit">Edit</a>
+        <a class="btn" href="/organiser/courses/{{_id}}/sessions/new">Add Session</a>
+        <a class="btn" href="/organiser/courses/{{_id}}/classlist">Class List</a>
+        <form method="post" action="/organiser/courses/{{_id}}/delete" style="display:inline">
+          <button class="btn danger" type="submit">Delete Course</button>
+        </form>
+      </div>
+    </article>
+    {{/courses}}
+    {{^courses}}
+    <p>No courses yet.</p>
+    {{/courses}}
+  </section>
+</main>
+
+{{> footer}}

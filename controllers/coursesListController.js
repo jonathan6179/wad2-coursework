@@ -25,27 +25,23 @@ const fmtDateTime = (iso) =>
 
 export const coursesListPage = async (req, res, next) => {
   try {
-    // Query params for filters/pagination
     const {
-      level, // beginner | intermediate | advanced
-      type, // WEEKLY_BLOCK | WEEKEND_WORKSHOP
-      dropin, // yes | no
-      q, // text search in title/description (basic contains)
-      page = "1", // 1-based
-      pageSize = "10", // default page size
+      level,
+      type,
+      dropin,
+      q,
+      page = "1",
+      pageSize = "10",
     } = req.query;
 
-    // Base filter for DB lookup
     const filter = {};
     if (level) filter.level = level;
     if (type) filter.type = type;
     if (dropin === "yes") filter.allowDropIn = true;
     if (dropin === "no") filter.allowDropIn = false;
 
-    // Fetch all courses matching basic filters
     let courses = await CourseModel.list(filter);
 
-    // Client-side search (NeDB has basic querying; for simplicity, do it here)
     const needle = (q || "").trim().toLowerCase();
     if (needle) {
       courses = courses.filter(
@@ -55,7 +51,6 @@ export const coursesListPage = async (req, res, next) => {
       );
     }
 
-    // Sort by startDate ascending (fallback to title)
     courses.sort((a, b) => {
       const ad = a.startDate
         ? new Date(a.startDate).getTime()
@@ -67,7 +62,6 @@ export const coursesListPage = async (req, res, next) => {
       return (a.title || "").localeCompare(b.title || "");
     });
 
-    // Pagination
     const p = Math.max(1, parseInt(page, 10) || 1);
     const ps = Math.max(1, parseInt(pageSize, 10) || 10);
     const total = courses.length;
@@ -75,7 +69,6 @@ export const coursesListPage = async (req, res, next) => {
     const start = (p - 1) * ps;
     const pageItems = courses.slice(start, start + ps);
 
-    // Enrich with first session date, session count
     const cards = await Promise.all(
       pageItems.map(async (c) => {
         const sessions = await SessionModel.listByCourse(c._id);
@@ -91,11 +84,12 @@ export const coursesListPage = async (req, res, next) => {
           nextSession: first ? fmtDateTime(first.startDateTime) : "TBA",
           sessionsCount: sessions.length,
           description: c.description,
+          location: c.location || "",
+          price: c.price != null ? `£${c.price.toFixed(2)}` : "",
         };
       })
     );
 
-    // Build pagination view model
     const pagination = {
       page: p,
       pageSize: ps,
@@ -123,7 +117,6 @@ export const coursesListPage = async (req, res, next) => {
   }
 };
 
-// Helper to preserve current query params while changing page
 function buildLink(req, page, pageSize) {
   const url = new URL(
     `${req.protocol}://${req.get("host")}${req.originalUrl.split("?")[0]}`

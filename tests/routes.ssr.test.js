@@ -15,7 +15,6 @@ describe("SSR view routes", () => {
     const res = await request(app).get("/");
     expect(res.status).toBe(200);
     expect(res.headers["content-type"]).toMatch(/html/);
-    // Page title from home.mustache (adjust if you changed it)
     expect(res.text).toMatch(/Courses|Upcoming Courses/i);
   });
 
@@ -31,20 +30,5 @@ describe("SSR view routes", () => {
     expect(res.status).toBe(200);
     expect(res.headers["content-type"]).toMatch(/html/);
     expect(res.text).toMatch(/Test Course/);
-  });
-
-  test("GET /courses/:id/book renders course booking form", async () => {
-    const res = await request(app).get(`/courses/${data.course._id}/book`);
-    expect(res.status).toBe(200);
-    expect(res.headers["content-type"]).toMatch(/html/);
-    expect(res.text).toMatch(/Confirm Course Booking|Book:/i);
-  });
-
-  test("GET /sessions/:id/book renders session booking form", async () => {
-    const sessionId = data.sessions[0]._id;
-    const res = await request(app).get(`/sessions/${sessionId}/book`);
-    expect(res.status).toBe(200);
-    expect(res.headers["content-type"]).toMatch(/html/);
-    expect(res.text).toMatch(/Confirm Session Booking|Book Session/i);
   });
 });

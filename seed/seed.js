@@ -13,14 +13,12 @@ import { UserModel } from "../models/userModel.js";
 const iso = (d) => new Date(d).toISOString();
 
 async function wipeAll() {
-  // Remove all documents to guarantee a clean seed
   await Promise.all([
     usersDb.remove({}, { multi: true }),
     coursesDb.remove({}, { multi: true }),
     sessionsDb.remove({}, { multi: true }),
     bookingsDb.remove({}, { multi: true }),
   ]);
-  // Compact files so you’re not looking at stale data on disk
   await Promise.all([
     usersDb.persistence.compactDatafile(),
     coursesDb.persistence.compactDatafile(),
@@ -35,10 +33,24 @@ async function ensureDemoStudent() {
     student = await UserModel.create({
       name: "Fiona",
       email: "fiona@student.local",
+      password: "student123",
       role: "student",
     });
   }
   return student;
+}
+
+async function ensureDemoOrganiser() {
+  let organiser = await UserModel.findByEmail("organiser@yoga.local");
+  if (!organiser) {
+    organiser = await UserModel.create({
+      name: "Admin Organiser",
+      email: "organiser@yoga.local",
+      password: "organiser123",
+      role: "organiser",
+    });
+  }
+  return organiser;
 }
 
 async function createWeekendWorkshop() {
@@ -57,12 +69,14 @@ async function createWeekendWorkshop() {
     instructorId: instructor._id,
     sessionIds: [],
     description: "Two days of breath, posture alignment, and meditation.",
+    location: "Studio 1, 12 Calm Street, Glasgow, G1 1YG",
+    price: 120.00,
   });
 
-  const base = new Date("2026-01-10T09:00:00"); // Sat 9am
+  const base = new Date("2026-01-10T09:00:00");
   const sessions = [];
   for (let i = 0; i < 5; i++) {
-    const start = new Date(base.getTime() + i * 2 * 60 * 60 * 1000); // every 2 hours
+    const start = new Date(base.getTime() + i * 2 * 60 * 60 * 1000);
     const end = new Date(start.getTime() + 60 * 60 * 1000);
     const s = await SessionModel.create({
       courseId: course._id,
@@ -95,9 +109,11 @@ async function createWeeklyBlock() {
     instructorId: instructor._id,
     sessionIds: [],
     description: "Progressive sequences building strength and flexibility.",
+    location: "Studio 2, 12 Calm Street, Glasgow, G1 1YG",
+    price: 180.00,
   });
 
-  const first = new Date("2026-02-02T18:30:00"); // Monday 6:30pm
+  const first = new Date("2026-02-02T18:30:00");
   const sessions = [];
   for (let i = 0; i < 12; i++) {
     const start = new Date(first.getTime() + i * 7 * 24 * 60 * 60 * 1000);
@@ -144,6 +160,9 @@ async function run() {
   console.log("Creating demo student…");
   const student = await ensureDemoStudent();
 
+  console.log("Creating demo organiser…");
+  const organiser = await ensureDemoOrganiser();
+
   console.log("Creating weekend workshop…");
   const w = await createWeekendWorkshop();
 
@@ -152,8 +171,11 @@ async function run() {
 
   await verifyAndReport();
 
-  console.log("\n✅ Seed complete.");
+  console.log("\n Seed complete.");
   console.log("Student ID           :", student._id);
+  console.log("Organiser ID         :", organiser._id);
+  console.log("Organiser email      :", "organiser@yoga.local");
+  console.log("Organiser password   :", "organiser123");
   console.log(
     "Workshop course ID   :",
     w.course._id,
@@ -169,6 +191,6 @@ async function run() {
 }
 
 run().catch((err) => {
-  console.error("❌ Seed failed:", err?.stack || err);
+  console.error(" Seed failed:", err?.stack || err);
   process.exit(1);
 });

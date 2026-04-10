@@ -1,0 +1,67 @@
+{{> head}}
+{{> header}}
+
+<main>
+  <h1>{{title}}</h1>
+
+  <form method="post" action="{{action}}">
+    <div class="form-group">
+      <label for="title">Course title</label>
+      <input type="text" id="title" name="title" class="form-control" value="{{course.title}}" required>
+    </div>
+
+    <div class="form-group">
+      <label for="description">Description</label>
+      <textarea id="description" name="description" class="form-control" rows="4" required>{{course.description}}</textarea>
+    </div>
+
+    <div class="form-group">
+      <label for="level">Level</label>
+      <select id="level" name="level" class="form-control">
+        <option value="beginner" {{#levelBeginner}}selected{{/levelBeginner}}>Beginner</option>
+        <option value="intermediate" {{#levelIntermediate}}selected{{/levelIntermediate}}>Intermediate</option>
+        <option value="advanced" {{#levelAdvanced}}selected{{/levelAdvanced}}>Advanced</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="type">Type</label>
+      <select id="type" name="type" class="form-control">
+        <option value="WEEKLY_BLOCK" {{#typeWeekly}}selected{{/typeWeekly}}>Weekly Block</option>
+        <option value="WEEKEND_WORKSHOP" {{#typeWeekend}}selected{{/typeWeekend}}>Weekend Workshop</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="location">Location</label>
+      <input type="text" id="location" name="location" class="form-control" value="{{course.location}}" required>
+    </div>
+
+    <div class="form-group">
+      <label for="price">Price (£)</label>
+      <input type="number" id="price" name="price" class="form-control" step="0.01" min="0" value="{{course.price}}" required>
+    </div>
+
+    <div class="form-group">
+      <label for="startDate">Start date</label>
+      <input type="date" id="startDate" name="startDate" class="form-control" value="{{course.startDate}}" required>
+    </div>
+
+    <div class="form-group">
+      <label for="endDate">End date</label>
+      <input type="date" id="endDate" name="endDate" class="form-control" value="{{course.endDate}}" required>
+    </div>
+
+    <div class="form-group">
+      <label for="allowDropIn">
+        <input type="checkbox" id="allowDropIn" name="allowDropIn" {{#course.allowDropIn}}checked{{/course.allowDropIn}}>
+        Allow drop-ins
+      </label>
+    </div>
+
+    <button class="btn primary" type="submit">{{buttonLabel}}</button>
+    <a href="/organiser">Cancel</a>
+  </form>
+</main>
+
+{{> footer}}

@@ -1,13 +1,41 @@
 <header class="site-header">
-  <div class="wrap">
-    🧘 Yoga Studio
-    <nav>
-      <a> hrefs</a>
-    </nav>
-    {{#user}}
-    <div class="user">
-      Signed in as <strong>{{ name }}</strong>
+  <nav class="navbar navbar-expand-md bg-white border-bottom">
+    <div class="container-fluid wrap">
+      <a class="navbar-brand fw-bold" href="/">Y&amp;M Studios</a>
+
+      <button class="navbar-toggler" type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#mainNav"
+        aria-controls="mainNav"
+        aria-expanded="false"
+        aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="mainNav">
+        <ul class="navbar-nav me-auto mb-2 mb-md-0">
+          <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="/about">About</a></li>
+          <li class="nav-item"><a class="nav-link" href="/courses">Courses</a></li>
+          {{#user.isOrganiser}}
+          <li class="nav-item"><a class="nav-link" href="/organiser">Dashboard</a></li>
+          {{/user.isOrganiser}}
+        </ul>
+        <ul class="navbar-nav ms-auto mb-2 mb-md-0">
+          {{#user}}
+          <li class="nav-item">
+            <span class="nav-link text-muted">
+              Signed in as <strong>{{user.name}}</strong>
+            </span>
+          </li>
+          <li class="nav-item"><a class="nav-link" href="/logout">Sign out</a></li>
+          {{/user}}
+          {{^user}}
+          <li class="nav-item"><a class="nav-link" href="/login">Sign in</a></li>
+          <li class="nav-item"><a class="nav-link" href="/register">Register</a></li>
+          {{/user}}
+        </ul>
+      </div>
     </div>
-    {{/user}}
-  </div>
+  </nav>
 </header>

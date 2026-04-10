@@ -1,0 +1,49 @@
+{{> head}}
+{{> header}}
+
+<main class="container py-4">
+  <h1>User Management</h1>
+  <p><a href="/organiser">Back to dashboard</a></p>
+
+  <div class="table-responsive">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Role</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#users}}
+        <tr>
+          <td>{{name}}</td>
+          <td>{{email}}</td>
+          <td>{{role}}</td>
+          <td>
+            {{^isSelf}}
+            <form method="post" action="/organiser/users/{{_id}}/role" style="display:inline">
+              <select name="role">
+                <option value="student" {{#isStudent}}selected{{/isStudent}}>Student</option>
+                <option value="organiser" {{#isOrganiser}}selected{{/isOrganiser}}>Organiser</option>
+                <option value="instructor" {{#isInstructor}}selected{{/isInstructor}}>Instructor</option>
+              </select>
+              <button type="submit">Update role</button>
+            </form>
+            <form method="post" action="/organiser/users/{{_id}}/delete" style="display:inline">
+              <button type="submit">Remove</button>
+            </form>
+            {{/isSelf}}
+            {{#isSelf}}
+            <span class="muted">Your account</span>
+            {{/isSelf}}
+          </td>
+        </tr>
+        {{/users}}
+      </tbody>
+    </table>
+  </div>
+</main>
+
+{{> footer}}

@@ -1,22 +1,17 @@
 // routes/views.js
 import { Router } from "express";
-import {
-  homePage,
-  courseDetailPage,
-  postBookCourse,
-  postBookSession,
-  bookingConfirmationPage,
-} from "../controllers/viewsController.js";
-
-import { coursesListPage } from "../controllers/coursesListController.js";
+import { verify } from "../auth/auth.js";
+import * as controller from "../controllers/viewsController.js";
+import * as coursesListController from "../controllers/coursesListController.js";
 
 const router = Router();
 
-router.get("/", homePage);
-router.get("/courses", coursesListPage);
-router.get("/courses/:id", courseDetailPage);
-router.post("/courses/:id/book", postBookCourse);
-router.post("/sessions/:id/book", postBookSession);
-router.get("/bookings/:bookingId", bookingConfirmationPage);
+router.get("/", controller.homePage);
+router.get("/about", controller.aboutPage);
+router.get("/courses", coursesListController.coursesListPage);
+router.get("/courses/:id", controller.courseDetailPage);
+router.post("/courses/:id/book", verify, controller.postBookCourse);
+router.post("/sessions/:id/book", verify, controller.postBookSession);
+router.get("/bookings/:bookingId", controller.bookingConfirmationPage);
 
 export default router;

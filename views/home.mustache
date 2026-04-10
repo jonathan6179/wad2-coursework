@@ -1,26 +1,71 @@
-
 {{> head}}
 {{> header}}
-<h1>Upcoming Courses</h1>
 
-<div class="cards">
-  {{#courses}}
-  <article class="card">
-    <h2>/courses/{{title}}</a></h2>
-    <p class="muted">
-      Level: {{level}} • Type: {{type}} {{#allowDropIn}}• Drop-in OK{{/allowDropIn}}
+<section class="hero">
+  <div class="hero-content">
+    <h1>Find Your Flow</h1>
+    <p class="hero-tagline">Yoga &amp; mindfulness classes for all levels in the heart of Glasgow</p>
+    <a class="btn primary hero-btn" href="/courses">View Courses</a>
+  </div>
+</section>
+
+<main class="container py-4">
+  <section class="intro">
+    <p>
+      Welcome to Y&amp;M Studios. We offer a range of yoga and mindfulness courses
+      for all levels of fitness and ability — from gentle beginner blocks to
+      intensive weekend workshops. Browse our upcoming courses below and book
+      your place today.
     </p>
-    <p>{{description}}</p>
-    <p class="muted">Dates: {{startDate}}  {{endDate}}</p>
-    <p class="muted">Next session: {{nextSession}} • Sessions: {{sessionsCount}}</p>
-    <p>/courses/View &amp; Book</a></p>
-  </article>
-  {{/courses}}
+  </section>
 
-  {{^courses}}
-    <p>No courses available yet.</p>
-  {{/courses}}
-</div>
+  <section class="experience-section">
+    <h2>Why Y&amp;M Studios?</h2>
+    <div class="experience-cards">
+      <div class="experience-card">
+        <div class="experience-icon">🌟</div>
+        <h3>Fun</h3>
+        <p>Our sessions are designed to be enjoyable for everyone. Whether you are holding a pose for the first time or deepening an existing practice, our instructors bring energy and positivity to every class — leaving you smiling long after you roll up your mat.</p>
+      </div>
+      <div class="experience-card">
+        <div class="experience-icon">🧘</div>
+        <h3>Relaxing</h3>
+        <p>Step away from the noise of everyday life and into a space of calm. Our mindfulness-led approach helps you unwind, release tension and reconnect with yourself — so you leave every session feeling lighter, clearer and fully recharged.</p>
+      </div>
+      <div class="experience-card">
+        <div class="experience-icon">💪</div>
+        <h3>Empowering</h3>
+        <p>Yoga is for every body. At Y&amp;M Studios we celebrate progress over perfection. Each session builds your strength, flexibility and confidence — giving you the tools to carry a sense of calm and capability into everything you do.</p>
+      </div>
+    </div>
+  </section>
+
+  <h2>Upcoming Courses</h2>
+
+  <div class="cards">
+    {{#courses}}
+    <article class="card">
+      <div class="card-header">
+        <h3><a href="/courses/{{id}}">{{title}}</a></h3>
+        <div class="badges">
+          {{#allowDropIn}}<span class="badge badge-dropin">Drop-in OK</span>{{/allowDropIn}}
+          <span class="badge badge-level-{{level}}">{{level}}</span>
+          <span class="badge badge-type">{{type}}</span>
+        </div>
+      </div>
+      <p>{{description}}</p>
+      <p class="muted">📅 {{startDate}} – {{endDate}}</p>
+      <p class="muted">📍 {{location}}</p>
+      <p class="price">{{price}}</p>
+      <p class="muted">Next session: {{nextSession}} • {{sessionsCount}} sessions</p>
+      <a class="btn primary card-btn" href="/courses/{{id}}">View &amp; Book</a>
+    </article>
+    {{/courses}}
+
+    {{^courses}}
+      <p>No courses available yet.</p>
+    {{/courses}}
+  </div>
+</main>
 
 {{> footer}}
-``
