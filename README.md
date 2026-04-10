@@ -3,6 +3,9 @@
 
 https://ym-studios.onrender.com
 
+> Note: The app is hosted on Render's free tier and may take up to 60 seconds 
+> to load after a period of inactivity.
+
 ## How to Run
 
 ### Prerequisites
